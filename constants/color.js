@@ -1,0 +1,13 @@
+export const BGCOLOR = '#e6faff';
+export const WHITE = "#ffffff";
+export const BLACK  = "#000033";
+export const LIGHT_GRAY = "rgb(242, 242, 242)";
+export const DARK_GRAY = "#9494b8";
+export const PURPLE = "#4E50BE";
+export const BLUE = "#3385ff";
+export const HEADING_TEXT = 25;
+export const DESCRIPTION = 15;
+export const TEXT = 18;
+export const CARD1 = "#6257DF";
+export const CARD2 = "#FF6066";
+export const CARD3 = "#01444D";
