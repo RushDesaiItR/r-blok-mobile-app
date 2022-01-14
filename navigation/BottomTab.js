@@ -6,15 +6,38 @@ import Profile from "../pages/Profile"
 import Add from "../pages/Add"
 import Chat from "../pages/Chat"
 import User from "../pages/User"
+import OtherUser from "../pages/OtherUser"
+import FriendList from "../pages/FriendList"
+import OtherUserProfile from "../pages/OtherUserProfile"
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Ionicons from "react-native-vector-icons/Ionicons"
 
+import { createStackNavigator } from '@react-navigation/stack';
+
+const Stack = createStackNavigator();
+
+function MyStack() {
+  return (
+    <Stack.Navigator
+    screenOptions={{
+      headerShown:false,
+    }}
+    >
+      <Stack.Screen name="Home" component={MyTabs} />
+      <Stack.Screen name="OtherUser" component={OtherUser} />
+      <Stack.Screen name="FriendList" component={FriendList} />
+      <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />
+     
+    </Stack.Navigator>
+  );
+}
 
 const CustomTabBarButton=({children, onPress})=>(
     <TouchableOpacity
+    onPress={onPress}
      style={{
        top:-30,
        alignContent:"center",
@@ -164,4 +187,4 @@ function MyTabs() {
     </Tab.Navigator>
   );
 }
-export default MyTabs;
+export default MyStack;

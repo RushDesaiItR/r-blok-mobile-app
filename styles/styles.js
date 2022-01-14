@@ -1,4 +1,8 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { Dimensions } from 'react-native';
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 import {BGCOLOR, WHITE, PURPLE, HEADING_TEXT, DESCRIPTION, TEXT, BLACK, LIGHT_GRAY, DARK_GRAY, CARD1, CARD2, CARD3} from "../constants/color"
 export default StyleSheet.create({
     setBackground:{
@@ -73,7 +77,7 @@ export default StyleSheet.create({
         height:'100%',
         flexDirection:"column",
         paddingVertical:20,
-        
+        position:"relative"
         // justifyContent:"space-between",
         
         // paddingHorizontal:20
@@ -102,13 +106,7 @@ export default StyleSheet.create({
     homePageTopBarText:{
         marginHorizontal:20
     },
-    homePageStory:{
-        height:500,
-        marginTop:20,
-        paddingHorizontal:20,
-        marginHorizontal:20
-
-    },
+  
     homePageNewGuys:{
         
     },
@@ -119,11 +117,21 @@ export default StyleSheet.create({
     homePageStoryCard:{
         borderRadius:30,
         width:300,
-        height:"100%",
+       
         marginRight:10,
         justifyContent:"center",
         alignItems:"center"
       //  alignItems:"flex-end"
+    },
+    homePageStory:{
+        height:"40%",
+        width:"90%",
+       marginHorizontal:"5%"
+    },
+    homePagePosts:{
+      
+       height:"80%",
+      
     },
     homePageStoryCardSidebar:{
       elevation:10,
@@ -258,7 +266,10 @@ searchBarContainer:{
 },
 userPost:{
     height:200,
-    marginVertical:30,
+    marginVertical:20,
+    elevation:10,
+    width:"90%",
+    marginHorizontal:"5%",
     elevation:10
 },
 userPostContainer:{
@@ -276,23 +287,28 @@ userPostHeader:{
 },
 userPostImage:{
    height:"100%",
-   zIndex:1
+   zIndex:1,
+   elevation:10,
+   borderRadius: 10,
+   overflow: "hidden",
+   
 },
 userPostFotterLogo:{
    fontSize:25,
    fontWeight:"bold",
-   color:DARK_GRAY,
+   color:"#3D2892",
    
  //  color:"#FF6066"
 },
 userPostHeaderText:{
    fontSize:16,
-   fontWeight:"400",
-   color:"#FF6066"
+   fontWeight:"bold",
+   color:"#3D2892"
 },
 userPostFotter:{
     flexDirection:"row",
     alignItems:"center",
+    justifyContent:"space-between",
     left:0,
     right:0,
     padding:10,
@@ -343,4 +359,235 @@ userPageAllInfoLogo:{
      borderRadius:360
 },
 userPageAllInfoText:{
-    color
+    color:"#3D2892",
+    marginTop:5,
+    fontSize:30
+},
+userPageAllInfoDes:{
+    color:"white"
+},
+
+///111111111111111111111111111111111111111111111111111111111111111
+headerFriendList:{
+   height:60,
+   elevation:8,
+   width:"100%",
+   padding:10,
+   flexDirection:"row",
+   alignItems:"center",
+   justifyContent:"space-between",
+   backgroundColor:"#3D2892"
+
+},
+headerFriendListArrow:{
+    fontSize:20,
+    color:"white"
+},
+headerFriendListTitle:{
+    fontSize:17,
+    color:"white"
+},
+list:{
+//    height:100,
+   paddingHorizontal:10,
+   flexDirection:"row",
+   alignItems:"center",
+   justifyContent:"space-between",
+   paddingVertical:10
+},
+listImage:{
+    width:60,
+    height:60,
+    borderRadius:70
+},
+listName:{
+    marginLeft:15,
+    fontSize:18
+},
+listButton:{
+    paddingVertical:10,
+    paddingHorizontal:14,
+    backgroundColor:"#3D2892",
+    borderRadius:10
+},
+
+///----------------------------------addImage page
+addImage:{
+   padding:10,
+   flex:1,
+//    backgroundColor:"#3D2892",
+   borderRadius:10,
+   
+},
+addImageMenus:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+    marginTop:50
+},
+addImageMenu:{
+    padding:10,
+   backgroundColor:"#3D2892",
+   width:"45%",
+   height:70,
+   borderRadius:10,
+   alignItems:"center",
+   textAlign:"center",
+   justifyContent:"center",
+   elevation:16
+},
+addImageMenuIcon:{
+    fontSize:25,
+},
+addImageMenuIconContainer:{
+    marginTop:"-50%",
+    borderRadius:360,
+    width:60,
+    height:60,
+    borderWidth:10,
+    borderColor:"#3D2892",
+    backgroundColor:"white",
+    alignItems:"center",
+    justifyContent:"center"
+},
+imageForm:{
+ 
+  flexDirection:"column",
+  justifyContent:"center",
+  alignItems:"center",
+  marginVertical:10,
+  width:"100%",
+},
+imageFormImage:{
+    width:100,
+    height:100,
+    fontSize:100,
+    borderRadius:360,
+    
+},
+imageFormYes:{
+  marginTop:"20%",  
+  width:"100%",
+  flexDirection:"column",
+  justifyContent:"center",
+  alignItems:"center",
+},
+imageFormNo:{
+    marginTop:"20%",
+    flexDirection:"column",
+    justifyContent:"center",
+    alignItems:"center"
+   
+},
+imageFormInput:{
+    padding:5,
+    width:"90%",
+    borderWidth:2,
+    borderColor:"#3D2892",
+    marginVertical:10,
+    borderRadius:5
+},
+imageFormButton:{
+    backgroundColor:"#3D2892",
+    width:"90%",
+    borderRadius:10
+},
+////----------------------------------------------------new story
+newStory:{
+   width:200,
+   height:"70%",
+    marginHorizontal:20,
+   marginVertical:10,
+   flexDirection:"row",
+   alignItems:"center",
+   justifyContent:"center",
+   borderRadius:10
+   
+},
+newStoryInner:{
+    width:"95%",
+   height:"90%",
+   backgroundColor:"red",
+   borderRadius:10,
+   flexDirection:"row",
+   alignItems:"center",
+   justifyContent:"center"
+},
+newStoryTitle:{
+  fontSize:25,
+  fontWeight:"bold"
+},
+newStoryImage:{
+   width:"100%",
+   height:"100%"
+},
+storyFullPage:{
+    position:"absolute",
+    backgroundColor:"rgba(77, 77, 77,.3)",
+    top:0,
+    left:0,
+    right:0,
+    bottom:0,
+    zIndex:5,
+   
+    flexDirection:"column",
+    alignItems:"center",
+    justifyContent:"center"
+},
+storyFullPageInner:{
+    backgroundColor:"white",
+    width:"100%",
+    height:"100%",
+    borderRadius:10,
+    padding:20,
+
+},
+storyFullPageBoxImg:{
+    width:windowWidth,
+    height:windowHeight/2,
+    marginRight:10
+},
+storyFullPageBoxIndicatorContainer:{
+    width:windowWidth - 10,
+    marginHorizontal:5
+   
+},
+storyFullPageBoxIndicator:{
+    backgroundColor:DARK_GRAY,
+    borderRadius:10,
+    height:10,
+    marginHorizontal:5
+},
+activeStoryFullPageBoxIndicator:{
+    backgroundColor:"#3D2892",
+    borderRadius:10,
+    height:10,
+    marginHorizontal:5
+},
+storyFullPageInnerHeader:{
+   flexDirection:"row",
+   justifyContent:"space-between",
+   alignItems:"center",
+   marginVertical:10
+},
+storyFullPageInnerHeaderText:{
+    fontSize:20,
+    fontWeight:"bold"
+},
+storyFullPageInnerHeaderCount:{
+    width:30,
+    height:30,
+    flexDirection:"row",
+    alignItems:"center",
+    justifyContent:"center",
+    backgroundColor:"#3D2892",
+    borderRadius:360,
+   
+}
+});
+
+
+
+
+
+
+

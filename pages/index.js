@@ -8,7 +8,7 @@ import Login from "./Login"
 import {
   NavigationContainer
 } from '@react-navigation/native';
-import MyTabs from '../navigation/BottomTab';
+import MyStack from '../navigation/BottomTab';
 const Tab = createBottomTabNavigator();
 export default class Index extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class Index extends Component {
     return (
     // <Login/>
     <NavigationContainer>
-       <MyTabs/>
+       <MyStack/>
     </NavigationContainer>
     
    

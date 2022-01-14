@@ -5,4 +5,7 @@
     <string name="__arcore_install_app">您必须安装最新版本的 ARCore 才能使用此应用。</string>
     <string name="__arcore_install_feature">您必须安装最新版本的 ARCore 才能使用此功能。</string>
     <string name="__arcore_installing">正在安装 ARCore…</string>
+    <string name="ucrop_label_edit_photo">裁剪</string>
+    <string name="ucrop_label_original">原始比例</string>
+    <string name="ucrop_menu_crop">裁剪</string>
 </resources>
