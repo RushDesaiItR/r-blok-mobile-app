@@ -224,7 +224,7 @@ const sendResetEmailLink = (payload) => {
     },
   })
     .then((res) => {
-      return res.json();
+      return res.json();f
     });
 };
 module.exports.sendResetEmailLink = sendResetEmailLink;

@@ -2,20 +2,21 @@
 // import AsyncStorage from "@react-native-community/async-storage"
 const HOST = "https://shrouded-scrubland-67974.herokuapp.com";
 import { AsyncStorage } from 'react-native';
-const Login = () => {
-  console.log("called..")
+const Login = (email, password) => {
+  console.log("called..", email, password)
   const Url = `${HOST}/api/login`;
   // const testUrl = `${HOST}/${API}/test`;
 
 
 
   var raw = JSON.stringify({
-    "email": "abch@gmailcom",
+    "email": email,
     "name": "hkjk",
-    "password": "tyyuu",
+    "password": password,
     "user_typeid": 1
   });
-
+  // abch@gmailcom
+  // hkjk
   return fetch(Url, {
     method: "post",
     body: raw,
@@ -228,7 +229,7 @@ const GetStoriesById = async (id) => {
           arrayId: friend,
           name: data.friendlist[friend].name,
           userid: data.friendlist[friend]._id,
-          imgaeUrl:data.friendlist[friend].imageUrl,
+          imageUrl: data.friendlist[friend].imageUrl,
           newStories: []
         }
 
@@ -262,6 +263,57 @@ const GetStoriesById = async (id) => {
 
     });
 }
+//-----------uload image 
+const uploadProfile = async (payload) => {
+  const appendData = new FormData()
+  appendData.append("file", image)
+  appendData.append("upload_preset", "qtrmjhlj")
+  appendData.append("cloud_name", "xyz-ltd")
+
+  await axios({
+    method: "post",
+    url: "https://api.cloudinary.com/v1_1/xyz-ltd/image/upload",
+    data: appendData
+  })
+    .then(data => {
+      console.log(data)
+
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+const register = async () => {
+  // console.log("called....",name,email, password, imageUrl)
+  console.log("called....")
+  const url = `${HOST}/api/register`;
+  let row = JSON.stringify({
+    "name": "shubham",
+    "user_type_id": 1,
+    "email": "shubhu@gmail.com",
+    "password": "Mahavir@7890",
+    "imageUrl": "https://c4.wallpaperflare.com/wallpaper/294/365/277/hrithik-roshan-5k-bollywood-wallpaper-preview.jpg"
+  })
+  return fetch(url, {
+    method: "post",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data =>{
+      console.log("-------------",data.data)
+      return data.data
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+}
+module.exports.register = register;
+module.exports.uploadProfile = uploadProfile;
 module.exports.GetStoriesById = GetStoriesById;
 module.exports.GetPostsById = GetPostsById;
 module.exports.Getfriendsbyid = Getfriendsbyid;

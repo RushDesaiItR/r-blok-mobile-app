@@ -80,7 +80,7 @@ export default class Home extends Component {
                   </View>
 
                 </View>
-
+                
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}

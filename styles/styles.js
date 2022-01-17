@@ -21,6 +21,11 @@ export default StyleSheet.create({
         padding:10,
         elevation:5
     },
+    inputError:{
+       color:"red",
+       fontSize:12,
+       fontWeight:"300"
+    },
     loginBox:{
         marginTop:'5%',
         height:'80%',
@@ -195,6 +200,21 @@ signinInnerTop:{
     flexDirection:"column",
     alignItems:"center",
    justifyContent:"center"
+},
+signupInnerTop:{
+    height:"20%",
+    width:"100%",
+    flexDirection:"column",
+    alignItems:"center",
+   justifyContent:"center"
+},
+signupInnerBottom:{
+    height:"80%",
+    width:"100%",
+    backgroundColor:WHITE,
+    borderTopLeftRadius:40,
+    borderTopRightRadius:40,
+    flexDirection:"column",
 },
 signinInnerBottom:{
     height:"70%",

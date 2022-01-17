@@ -8,6 +8,8 @@ import Chat from "../pages/Chat"
 import User from "../pages/User"
 import OtherUser from "../pages/OtherUser"
 import FriendList from "../pages/FriendList"
+import Login from "../pages/Login"
+import Register from "../pages/Register"
 import OtherUserProfile from "../pages/OtherUserProfile"
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
@@ -26,6 +28,9 @@ function MyStack() {
       headerShown:false,
     }}
     >
+        <Stack.Screen name="Register" component={Register} /> 
+
+       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Home" component={MyTabs} />
       <Stack.Screen name="OtherUser" component={OtherUser} />
       <Stack.Screen name="FriendList" component={FriendList} />
