@@ -7,6 +7,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { AsyncStorage } from 'react-native';
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import ImagePicker from 'react-native-image-crop-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -14,15 +15,17 @@ export default class Login extends Component {
       modal: false,
       showButon: true,
       email: null,
-      passord: null,
+      password: null,
       showEmailError: false,
       showEmailInvalidError: false,
       showPasswordError: false,
       showNameError: false,
       fullName: null,
-      formStep: 2,
+      formStep: 1,
       imageUri: "https://cdn.mwallpapers.com/photos/celebrities/hrithik-roshan/hrithik-roshan-best-hd-photos-1080p-xulsez.jpg",
-      imageDisplay: false
+      imageDisplay: false,
+      imageData:null,
+      cloudinaryImageUrl:null
     };
   }
   takeImageFormCamera() {
@@ -44,8 +47,9 @@ export default class Login extends Component {
     }).then(image => {
       this.setState({ imageUri: image.path })
       this.setState({ imageDisplay: true })
-
-      console.log(image);
+      this.setState({imageData:image})
+    
+  
     });
   }
   nextStep() {
@@ -83,22 +87,43 @@ export default class Login extends Component {
   async register() {
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
-   // if (this.state.fullName && this.state.email && reg.test(this.state.email) && this.state.password) {
+    if (this.state.fullName && this.state.email && reg.test(this.state.email) && this.state.password) {
       this.setState({ showButon: false })
-      const registerResult = await AuthServices.register()
-      console.log("(registerResult", registerResult)
-      if (loginResult.success) {
-        this.setState({ modal: true })
-        setTimeout(() => {
-          this.setState({ modal: false })
-        }, 2000);
+      const sourceImage = {
+        uri: this.state.imageData.path,
+        type: this.state.imageData.mime,
+        name: this.state.imageData.path.split("/").pop()
       }
-
-      this.setState({ showButon: true })
-      setTimeout(() => {
-        this.props.navigation.navigate("Home")
-      }, 2000)
-   // }
+      const data = new FormData()
+      data.append("file", sourceImage)
+      data.append("upload_preset", "qtrmjhlj")
+      data.append("cloud_name", "xyz-ltd")
+    
+      await fetch("https://api.cloudinary.com/v1_1/xyz-ltd/image/upload",{
+        body: data,
+        method: "post",
+        headers:{
+          "Content-Type":"multipart/form-data"
+        }
+        
+       })
+         .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          this.setState({cloudinaryImageUrl:data.url})
+        })
+        .catch(error => {
+          console.log(error)
+        })
+        let registerResult=AuthServices.register(this.state.fullName,this.state.email,this.state.password,this.state.cloudinaryImageUrl)
+        if(registerResult){
+          setTimeout(()=>{
+            this.props.navigation.navigate("Home")
+          }, 2000)
+        }
+     
+     
+    }
 
   }
   render() {
@@ -145,7 +170,7 @@ export default class Login extends Component {
                   </View>
                   <View style={styles.loginGroup}>
                     <Text style={styles.textInputLabel}>ENTER YOUR PASSWORD</Text>
-                    <TextInput style={styles.textInput} value={this.state.passord} onChangeText={(text) => this.setState({ password: text })} />
+                    <TextInput style={styles.textInput} value={this.state.password} onChangeText={(text) => this.setState({ password: text })} />
                     {
                       this.state.showPasswordError && (
                         <Text style={styles.inputError}>Enter Password</Text>

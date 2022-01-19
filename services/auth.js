@@ -263,18 +263,23 @@ const GetStoriesById = async (id) => {
 
     });
 }
-//-----------uload image 
-const uploadProfile = async (payload) => {
-  const appendData = new FormData()
-  appendData.append("file", image)
-  appendData.append("upload_preset", "qtrmjhlj")
-  appendData.append("cloud_name", "xyz-ltd")
 
-  await axios({
+const uploadProfile = async (sourceImage) => {
+  
+  const data = new FormData()
+  data.append("file", sourceImage)
+  data.append("upload_preset", "qtrmjhlj")
+  data.append("cloud_name", "xyz-ltd")
+
+  fetch("https://api.cloudinary.com/v1_1/xyz-ltd/image/upload",{
+    body: data,
     method: "post",
-    url: "https://api.cloudinary.com/v1_1/xyz-ltd/image/upload",
-    data: appendData
-  })
+    headers:{
+      "Content-Type":"multipart/form-data"
+    }
+    
+   })
+     .then(response => response.json())
     .then(data => {
       console.log(data)
 
@@ -283,16 +288,16 @@ const uploadProfile = async (payload) => {
       console.log(error)
     })
 }
-const register = async () => {
-  // console.log("called....",name,email, password, imageUrl)
-  console.log("called....")
+const register = async (name,email,password, imageUrl) => {
+   console.log("called....",name,email, password, imageUrl)
+  
   const url = `${HOST}/api/register`;
   let row = JSON.stringify({
-    "name": "shubham",
+    "name": name,
     "user_type_id": 1,
-    "email": "shubhu@gmail.com",
-    "password": "Mahavir@7890",
-    "imageUrl": "https://c4.wallpaperflare.com/wallpaper/294/365/277/hrithik-roshan-5k-bollywood-wallpaper-preview.jpg"
+    "email": email,
+    "password":password,
+    "imageUrl":imageUrl
   })
   return fetch(url, {
     method: "post",
@@ -304,8 +309,7 @@ const register = async () => {
   })
     .then(response => response.json())
     .then(data =>{
-      console.log("-------------",data.data)
-      return data.data
+       return data
     })
     .catch(error => {
       console.log(error)
