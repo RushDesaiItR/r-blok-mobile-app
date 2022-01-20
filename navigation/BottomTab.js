@@ -27,11 +27,13 @@ function MyStack() {
     screenOptions={{
       headerShown:false,
     }}
+
     >
+      <Stack.Screen name="Home" component={MyTabs} />
         <Stack.Screen name="Register" component={Register} /> 
 
        <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="Home" component={MyTabs} />
+      
       <Stack.Screen name="OtherUser" component={OtherUser} />
       <Stack.Screen name="FriendList" component={FriendList} />
       <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />

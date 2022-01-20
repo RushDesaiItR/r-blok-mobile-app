@@ -8,6 +8,7 @@ import { SafeAreaView, StyleSheet, TextInput } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import Entypo from "react-native-vector-icons/Entypo"
+import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import Loader from "./Loader"
 import AuthServices from '../services/auth';
 import {
@@ -42,7 +43,7 @@ export default class Home extends Component {
   }
   showStory(userId) {
     this.setState({ UserStory: this.state.StoryArray[userId] })
-    console.log("__________________",this.state.UserStory)
+    console.log("__________________", this.state.UserStory)
     this.setState({ storyShow: true })
   }
   changeSlideShowImage(nativeEvent) {
@@ -80,18 +81,15 @@ export default class Home extends Component {
                   </View>
 
                 </View>
-                
+
                 <FlatList
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   data={this.state.StoryArray}
                   renderItem={({ item }) =>
-
-
-                    <TouchableOpacity onPress={() => this.showStory(item.arrayId)} style={{ ...styles.newStory, borderWidth: 3, borderColor: "red", }}>
-                      <View style={styles.newStoryInner}>
-                        <Text style={styles.newStoryTitle}>{item.name}</Text>
-                      </View>
+                    <TouchableOpacity onPress={() => this.showStory(item.arrayId)} style={{ ...styles.newStory, backgroundColor: "rgb(48, 41, 69)", }}>
+                      <Image style={styles.newStoryImage} source={{ uri: item.imageUrl }} />
+                      <Text style={styles.newStoryTitle}>{item.name}</Text>
                     </TouchableOpacity>
                   }
 
@@ -113,13 +111,15 @@ export default class Home extends Component {
                         <View style={styles.userPostFotter}>
                           <Text style={styles.userPostHeaderText}>Rushi_Desai</Text>
                           <View style={{ flexDirection: "row" }}>
-                            <FontAwesome
-                              style={styles.userPostFotterLogo}
-                              name={"phone"} />
 
+
+                            <AntDesign name='like1' style={{ ...styles.userPostFotterLogo }} />
                             <FontAwesome
                               style={{ ...styles.userPostFotterLogo, marginLeft: 10 }}
-                              name={"slideshare"} />
+                              name={"phone"} />
+                            {/* <FontAwesome
+                              style={{ ...styles.userPostFotterLogo, marginLeft: 10 }}
+                              name={"slideshare"} /> */}
                           </View>
 
                         </View>
@@ -143,12 +143,12 @@ export default class Home extends Component {
                 this.state.storyShow && (
                   <View style={styles.storyFullPage}>
                     <View style={styles.storyFullPageInner}>
-                      <TouchableOpacity  onPress={() => this.setState({ storyShow: false })}>
-                        <AntDesign style={{ ...styles.storyFullPageInnerClose, fontSize:20 }} name="closecircle" />
+                      <TouchableOpacity onPress={() => this.setState({ storyShow: false })}>
+                        <AntDesign style={{ ...styles.storyFullPageInnerClose, fontSize: 20 }} name="closecircle" />
                       </TouchableOpacity>
                       <View style={styles.storyFullPageInnerHeader}>
                         <Text style={styles.storyFullPageInnerHeaderText}>{this.state.UserStory.name}</Text>
-                        <Image style={{height:60, width:60, borderRadius:360}} source={{uri:this.state.UserStory.imageUrl}}/>
+                        <Image style={{ height: 60, width: 60, borderRadius: 360 }} source={{ uri: this.state.UserStory.imageUrl }} />
                         {/* <View style={styles.storyFullPageInnerHeaderCount}>
                           <Text style={{ ...styles.storyFullPageInnerHeaderText, color: "white" }}>{this.state.UserStory.newStories.length}</Text>
 
@@ -171,32 +171,32 @@ export default class Home extends Component {
 
                       />
 
-                     
 
-                        <FlatList
-                          horizontal
-                          style={styles.storyFullPageBoxIndicatorContainer}
-                          showsHorizontalScrollIndicator={false}
-                          data={this.state.UserStory.newStories}
-                          onScroll={({ nativeEvent }) => this.changeSlideShowImage(nativeEvent)}
-                          keyExtractor={(item,index) => index.toString()}
-                          renderItem={({ item, index }) =>
-                            
-                            <View style={ 
-                              this.state.slideShowActiveImage == index ?
+
+                      <FlatList
+                        horizontal
+                        style={styles.storyFullPageBoxIndicatorContainer}
+                        showsHorizontalScrollIndicator={false}
+                        data={this.state.UserStory.newStories}
+                        onScroll={({ nativeEvent }) => this.changeSlideShowImage(nativeEvent)}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({ item, index }) =>
+
+                          <View style={
+                            this.state.slideShowActiveImage == index ?
                               { ...styles.activeStoryFullPageBoxIndicator, width: windowWidth / this.state.UserStory.newStories.length - 30 }
                               :
                               { ...styles.storyFullPageBoxIndicator, width: windowWidth / this.state.UserStory.newStories.length - 30 }
 
-                              }>
-                            
-                            </View>
+                          }>
+
+                          </View>
 
                         }
 
-                        />
+                      />
 
-                     
+
 
                     </View>
                   </View>

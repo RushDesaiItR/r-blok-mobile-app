@@ -286,7 +286,7 @@ searchBarContainer:{
 },
 userPost:{
     height:200,
-    marginVertical:20,
+    marginVertical:30,
     elevation:10,
     width:"90%",
     marginHorizontal:"5%",
@@ -515,30 +515,32 @@ imageFormButton:{
 newStory:{
    width:200,
    height:"70%",
-    marginHorizontal:20,
+   marginHorizontal:20,
    marginVertical:10,
    flexDirection:"row",
    alignItems:"center",
    justifyContent:"center",
-   borderRadius:10
-   
+   borderRadius:10,
+   padding:5
 },
 newStoryInner:{
-    width:"95%",
-   height:"90%",
-   backgroundColor:"red",
-   borderRadius:10,
    flexDirection:"row",
    alignItems:"center",
    justifyContent:"center"
 },
+
 newStoryTitle:{
-  fontSize:25,
-  fontWeight:"bold"
+  fontSize:15,
+  fontWeight:"bold",
+  color:"white",
+  marginLeft:20
 },
 newStoryImage:{
-   width:"100%",
-   height:"100%"
+   width:"30%",
+   height:"90%",
+   borderWidth:3,
+   borderColor:"white",
+   borderRadius:360
 },
 storyFullPage:{
     position:"absolute",
