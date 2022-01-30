@@ -19,6 +19,7 @@ export default class User extends Component {
       userConnections:null,
       loader:true,
       userPendingConnections:null,
+      userSendedConnection:null,
       userId:null
     };
   }
@@ -27,6 +28,7 @@ export default class User extends Component {
     this.setState({UserDataArray:DataResult.data})
     this.setState({userConnections:this.state.UserDataArray.friendlist.length})
     this.setState({userPendingConnections:this.state.UserDataArray.pendinFriendlist.length}) 
+    this.setState({userSendedConnections:this.state.UserDataArray.sendedFriendlist.length}) 
     this.setState({userId:this.state.UserDataArray._id})
     this.setState({loader:false})
   }
@@ -85,7 +87,7 @@ export default class User extends Component {
                   )
                 }
                 {
-                  this.state.userPendingConnections.length>0?( 
+                  this.state.userPendingConnections>0?( 
                    <TouchableOpacity 
                    onPress={() => {
                      // Pass and merge params back to home screen
@@ -110,16 +112,45 @@ export default class User extends Component {
                  </View>
                   )
                 } 
-               
-                 <TouchableOpacity style={styles.userPageAllInfo}>
-                 <MaterialIcons name='work' style={styles.userPageAllInfoLogo}/>
-                      <Text  style={styles.userPageAllInfoText}>28</Text>
-                      <Text  style={styles.userPageAllInfoDes}>WORK</Text>
-                 </TouchableOpacity>
-                 <TouchableOpacity style={styles.userPageAllInfo}>
-                 <FontAwesome name='user' style={styles.userPageAllInfoLogo}/>
-                      <Text  style={styles.userPageAllInfoText}>2890</Text>
-                      <Text  style={styles.userPageAllInfoDes}>FALLOWERS</Text>
+               {
+                    this.state.userSendedConnections>0?(
+                      <TouchableOpacity style={styles.userPageAllInfo}
+                      onPress={() => {
+                        // Pass and merge params back to home screen
+                        this.props.navigation.navigate({
+                          name: 'FriendList',
+                          params: { userId: this.state.userId,type:3 },
+                         
+                        });
+                      }}>
+                      <MaterialIcons name='work' style={styles.userPageAllInfoLogo}/>
+                           <Text  style={styles.userPageAllInfoText}>{this.state.userSendedConnections}</Text>
+                           <Text  style={styles.userPageAllInfoDes}>SENDED</Text>
+                      </TouchableOpacity>
+                    ):(
+                      <View 
+                   
+                      style={styles.userPageAllInfo}>
+                      <MaterialIcons name='work' style={styles.userPageAllInfoLogo}/>
+                           <Text  style={styles.userPageAllInfoText}>{this.state.userSendedConnections}</Text>
+                           <Text  style={styles.userPageAllInfoDes}>SENDED</Text>
+                      </View>
+                    )
+               }
+                 
+                 <TouchableOpacity style={styles.userPageAllInfo}
+                     onPress={() => {
+                      // Pass and merge params back to home screen
+                      this.props.navigation.navigate({
+                        name: 'FriendList',
+                        params: { userId: this.state.userId,type:4 },
+                       
+                      });
+                    }}
+                 >
+                 <FontAwesome name='plus' style={styles.userPageAllInfoLogo}/>
+                     
+                   <Text  style={styles.userPageAllInfoDes}>FIND FRIENDS</Text>
                   </TouchableOpacity>
             </View>
             {/* <TouchableOpacity style={{padding:13,padding:10,margin:10,borderRadius:10,backgroundColor:"#3D2892"}}>

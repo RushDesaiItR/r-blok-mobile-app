@@ -31,8 +31,13 @@ export default class Home extends Component {
       slideShowActiveImage: 0
     };
   }
+  async LogOut(){
+    await AuthServices.removeToken();
+  }
   async componentWillMount() {
-    const DataResult = await AuthServices.GetPostsById()
+
+   const DataResult = await AuthServices.GetPostsById()
+   console.log("DataResult",DataResult)
     this.setState({ PostsDataArray: DataResult.resturnPosts })
     const StoryDataResult = await AuthServices.GetStoriesById()
     this.setState({ StoryArray: StoryDataResult.returStories })
@@ -43,7 +48,6 @@ export default class Home extends Component {
   }
   showStory(userId) {
     this.setState({ UserStory: this.state.StoryArray[userId] })
-    console.log("__________________", this.state.UserStory)
     this.setState({ storyShow: true })
   }
   changeSlideShowImage(nativeEvent) {
@@ -81,21 +85,25 @@ export default class Home extends Component {
                   </View>
 
                 </View>
+                 {
+                   this.state.StoryArray &&(
+                    <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={this.state.StoryArray}
+                    renderItem={({ item }) =>
+                      <TouchableOpacity onPress={() => this.showStory(item.arrayId)} style={{ ...styles.newStory, backgroundColor: "rgb(48, 41, 69)", }}>
+                        <Image style={styles.newStoryImage} source={{ uri: item.imageUrl }} />
+                        <Text style={styles.newStoryTitle}>{item.name}</Text>
+                      </TouchableOpacity>
+                    }
+  
+                  />
+                   )
+                 }
+               
 
-                <FlatList
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  data={this.state.StoryArray}
-                  renderItem={({ item }) =>
-                    <TouchableOpacity onPress={() => this.showStory(item.arrayId)} style={{ ...styles.newStory, backgroundColor: "rgb(48, 41, 69)", }}>
-                      <Image style={styles.newStoryImage} source={{ uri: item.imageUrl }} />
-                      <Text style={styles.newStoryTitle}>{item.name}</Text>
-                    </TouchableOpacity>
-                  }
-
-                />
-
-                <View style={styles.homePagePosts}>
+                <View style={this.state.StoryArray.length>0?styles.homePagePosts:styles.homePagePostsFull}>
                   <FlatList
                     showsVerticalScrollIndicator={false}
                     data={this.state.PostsDataArray}
@@ -103,28 +111,27 @@ export default class Home extends Component {
 
 
                       <View style={styles.userPost}>
-                        <View style={styles.userPostContainer}>
-
-                          <ImageBackground style={styles.userPostImage} source={{ uri: item.imageUrl }}></ImageBackground>
-
-                        </View>
+                        <View style={styles.userPostHeader}>
+                        <Text style={styles.userPostHeaderText}>{item.name}</Text>
+                           <Image style={styles.userPostImg} source={{uri:item.userImg}} />
+                          
+                       </View>
+                        <Image resizeMode='cover' source={{uri:item.imageUrl}} style={styles.userPostImage}/>
                         <View style={styles.userPostFotter}>
-                          <Text style={styles.userPostHeaderText}>Rushi_Desai</Text>
+                         <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center"}}>
+                         <Text style={styles.userPostHeaderText}>{item.title}</Text>
                           <View style={{ flexDirection: "row" }}>
-
-
-                            <AntDesign name='like1' style={{ ...styles.userPostFotterLogo }} />
-                            <FontAwesome
+                              <AntDesign name='like1' style={{ ...styles.userPostFotterLogo }} />
+                              <FontAwesome
                               style={{ ...styles.userPostFotterLogo, marginLeft: 10 }}
                               name={"phone"} />
-                            {/* <FontAwesome
-                              style={{ ...styles.userPostFotterLogo, marginLeft: 10 }}
-                              name={"slideshare"} /> */}
                           </View>
-
+                         </View>
+                          <Text >{item.description}</Text>
                         </View>
-
-
+                        
+                         
+                      
 
                       </View>
                     }

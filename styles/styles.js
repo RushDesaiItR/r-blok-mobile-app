@@ -134,10 +134,11 @@ export default StyleSheet.create({
        marginHorizontal:"5%"
     },
     homePagePosts:{
-      
-       height:"80%",
-      
-    },
+           height:"80%",
+  },
+  homePagePostsFull:{
+    height:"100%",
+},
     homePageStoryCardSidebar:{
       elevation:10,
       right:5,
@@ -285,33 +286,26 @@ searchBarContainer:{
    paddingHorizontal:20
 },
 userPost:{
-    height:200,
-    marginVertical:30,
+    height:(windowHeight/3),
+    marginVertical:10,
     elevation:10,
     width:"90%",
     marginHorizontal:"5%",
-    elevation:10
+    elevation:10,
+   
 },
-userPostContainer:{
-    position:"relative"
-},
+
 userPostHeader:{
+    height:50,
     flexDirection:"row",
     alignItems:"center",
-    position:"absolute",
-    zIndex:2,
-  //  backgroundColor:"rgba(115, 115, 115,.0)",
-    left:0,
-    right:0,
+     zIndex:2,
     padding:10,
 },
 userPostImage:{
-   height:"100%",
-   zIndex:1,
+   height:(windowHeight/3)-100,
    elevation:10,
    borderRadius: 10,
-   overflow: "hidden",
-   
 },
 userPostFotterLogo:{
    fontSize:25,
@@ -323,17 +317,23 @@ userPostFotterLogo:{
 userPostHeaderText:{
    fontSize:16,
    fontWeight:"bold",
-   color:"#3D2892"
+   color:"#3D2892",
+   marginVertical:5
+},
+userPostHeader:{
+   flexDirection:"row",
+   justifyContent:"space-between"
+},
+userPostImg:{
+  width:40,
+  height:40,
+  borderRadius:360
 },
 userPostFotter:{
-    flexDirection:"row",
-    alignItems:"center",
-    justifyContent:"space-between",
-    left:0,
-    right:0,
-    padding:10,
+    height:50,
+    flexDirection:"column",
+     padding:10,
   //  backgroundColor:"rgba(115, 115, 115,.2)",
-    bottom:0
 },
 // -------------------------user Page
 
@@ -425,10 +425,10 @@ listName:{
     fontSize:18
 },
 listButton:{
-    paddingVertical:10,
+    paddingVertical:5,
     paddingHorizontal:14,
     backgroundColor:"#3D2892",
-    borderRadius:10
+    borderRadius:1
 },
 
 ///----------------------------------addImage page
@@ -478,10 +478,10 @@ imageForm:{
   width:"100%",
 },
 imageFormImage:{
-    width:100,
-    height:100,
+    width:130,
+    height:130,
     fontSize:100,
-    borderRadius:360,
+   
     
 },
 imageFormYes:{
@@ -604,7 +604,17 @@ storyFullPageInnerHeaderCount:{
     backgroundColor:"#3D2892",
     borderRadius:360,
    
-}
+},
+checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  checkboxLabel: {
+    margin: 8,
+  },
 });
 
 

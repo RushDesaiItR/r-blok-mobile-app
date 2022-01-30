@@ -18,16 +18,39 @@ export default class FriendList extends Component {
     // componentWillMountThenCall(this.props.route.params.id)
 
   }
-
+ async accpectFriendReq(friendId){
+  let DataResult = await AuthServices.accpectRequest(friendId)
+  console.log("accpectFriendReq",DataResult,friendId)
+ }
+ async addFriendReq(friendId){
+  let DataResult = await AuthServices.addRequest(friendId)
+  console.log("addFriendReq",DataResult,friendId)
+ }
   async componentWillMount() {
-
-    const DataResult = await AuthServices.Getfriendsbyid(this.props.route.params.userId)
+   
+  if(this.props.route.params.type==1){
+    let DataResult = await AuthServices.Getfriendsbyid(this.props.route.params.userId)
     this.setState({ UsersDataArray: DataResult.data })
     this.setState({ UsesrDataFriendsArray: this.state.UsersDataArray.friendlist })
-    console.log("this.state.UsersDataArray", this.state.UsesrDataFriendsArray);
-    this.state.UsesrDataFriendsArray.map(item => {
-      console.log(item.name)
-    })
+  }
+  if(this.props.route.params.type==2){
+    let DataResult = await AuthServices.GetPendingfriendsbyid(this.props.route.params.userId)
+    this.setState({ UsersDataArray: DataResult.data })
+    this.setState({ UsesrDataFriendsArray: this.state.UsersDataArray.pendinFriendlist })
+  }
+  if(this.props.route.params.type==3){
+    let DataResult = await AuthServices.GetSendedfriendsbyid(this.props.route.params.userId)
+    this.setState({ UsersDataArray: DataResult.data })
+    this.setState({ UsesrDataFriendsArray: this.state.UsersDataArray.sendedFriendlist })
+  }
+  if(this.props.route.params.type==4){
+    let DataResult = await AuthServices.GETALLUSERS()
+   // this.setState({ UsersDataArray: DataResult.data })
+    this.setState({ UsesrDataFriendsArray: DataResult.data })
+  }
+   
+  
+   
     setTimeout(() => {
       this.setState({ loader: false })
     }, 3000)
@@ -43,7 +66,7 @@ export default class FriendList extends Component {
           ) :
             <View>
               <View style={styles.headerFriendList}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate("User")}>
                   <FontAwesome5 style={styles.headerFriendListArrow} name='arrow-left' />
                 </TouchableOpacity>
                 {
@@ -51,10 +74,18 @@ export default class FriendList extends Component {
                     <Text style={styles.headerFriendListTitle}>
                       Friends
                     </Text>
-                  ) : (
+                  ) :(this.state.type === 2) ?(
                     <Text style={styles.headerFriendListTitle}>
-                      Pending
+                      Pending Request
                     </Text>
+                  ):(this.state.type === 3) ?(
+                    <Text style={styles.headerFriendListTitle}>
+                     Sended Request
+                  </Text>
+                  ):(
+                    <Text style={styles.headerFriendListTitle}>
+                     FIND FRIENDS
+                  </Text>
                   )
                 }
 
@@ -69,6 +100,34 @@ export default class FriendList extends Component {
                       <Image style={styles.listImage} source={{ uri: item.imageUrl }} />
                       <Text style={styles.listName}>{item.name}</Text>
                     </View>
+                   <View style={{flexDirection:"row"}}>
+                   {
+                  (this.state.type === 1) ? (
+                    <TouchableOpacity style={{...styles.listButton,marginRight:5}}>
+                    <Text style={styles.headerFriendListTitle}>
+                       Remove
+                    </Text>
+                    </TouchableOpacity>
+
+                  ) :(this.state.type === 2) ?(
+                    <TouchableOpacity onPress={()=>this.accpectFriendReq(item._id)} style={{...styles.listButton,marginRight:5}}>
+                       <Text style={styles.userPageAllInfoDes}>Accpect</Text>
+                   </TouchableOpacity>
+
+                  ):(this.state.type === 3) ?(
+                    <TouchableOpacity style={{...styles.listButton,marginRight:5}}>
+                         <Text style={styles.userPageAllInfoDes}>Cancle</Text>
+                    </TouchableOpacity>
+
+                  ):(
+                    <TouchableOpacity onPress={()=>this.addFriendReq(item._id)} style={{...styles.listButton,marginRight:5}}>
+                       <Text style={styles.userPageAllInfoDes}>Add</Text>
+                   </TouchableOpacity>
+                  )
+                }
+                 
+
+
                     <TouchableOpacity
                       onPress={() => {
                         // Pass and merge params back to home screen
@@ -82,6 +141,7 @@ export default class FriendList extends Component {
 
                       <Text style={styles.userPageAllInfoDes}>View</Text>
                     </TouchableOpacity>
+                   </View>
                   </TouchableOpacity>
                 }
 

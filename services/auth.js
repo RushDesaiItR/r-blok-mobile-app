@@ -1,9 +1,12 @@
 
 // import AsyncStorage from "@react-native-community/async-storage"
-const HOST = "https://shrouded-scrubland-67974.herokuapp.com";
+const HOST = "http://shrouded-scrubland-67974.herokuapp.com";
 import { AsyncStorage } from 'react-native';
-const Login = (email, password) => {
+
+const Login = async(email, password) => {
   console.log("called..", email, password)
+  await AsyncStorage.removeItem("token");
+  await AsyncStorage.removeItem("userid");
   const Url = `${HOST}/api/login`;
   // const testUrl = `${HOST}/${API}/test`;
 
@@ -49,15 +52,25 @@ const Login = (email, password) => {
 };
 
 const getToken = async () => {
-  return await AsyncStorage.getItem("token");
+   return await AsyncStorage.getItem("token");
 }
 const getUserId = async () => {
-  return await AsyncStorage.getItem("userid");
+   return await AsyncStorage.getItem("userid");
 }
+const removeToken = async () => {
+  console.log("caaled2")
+   await AsyncStorage.removeItem("token");
+   await AsyncStorage.removeItem("userid");
+}
+const removeUserId = async () => {
+ 
+   console.log("removeToken")
+}
+
 const UserData = async () => {
   let userId = await getUserId();
-
-  const Url = `${HOST}/api/getuserbyid/61c7f10326b92738b4054661`;
+  //61c7f10326b92738b4054661
+  const Url = `${HOST}/api/getuserbyid/${userId}`;
   return fetch(Url, {
     method: "get",
 
@@ -87,7 +100,7 @@ const UserData = async () => {
 }
 const OtherUserData = async (UserId) => {
   // let userId = await getUserId();
-
+  let userId = await getUserId();
   const Url = `${HOST}/api/getuserbyid/${UserId}`;
   return fetch(Url, {
     method: "get",
@@ -119,7 +132,73 @@ const OtherUserData = async (UserId) => {
 const Getfriendsbyid = async (id) => {
   let userId = await getUserId();
   console.log("-----Getfriendsbyid-----id--", id)
-  const Url = `${HOST}/api/getfriendsbyid/${id}`;
+  const Url = `${HOST}/api/getfriendsbyid/${userId}`;
+  return fetch(Url, {
+    method: "get",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then(function (response) {
+      var arrayFriends = [];
+      arrayFriends = response.json();
+      return arrayFriends;
+    })
+    .then(function (data) {
+      console.log("-----Getfriendsbyid-------", data)
+
+      return {
+        data
+      };
+    })
+    .catch(error => {
+      console.log("-----Getfriendsbyid-------", error)
+      return {
+        error
+      }
+
+    });
+}
+const GetPendingfriendsbyid = async (id) => {
+  let userId = await getUserId();
+  console.log("-----Getfriendsbyid-----id--", id)
+  const Url = `${HOST}/api/getallpendingrequest/${id}`;
+  return fetch(Url, {
+    method: "get",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then(function (response) {
+      var arrayFriends = [];
+      arrayFriends = response.json();
+      return arrayFriends;
+    })
+    .then(function (data) {
+      console.log("----- GetPendingfriendsbyid-------", data)
+
+      return {
+        data
+      };
+    })
+    .catch(error => {
+      console.log("----- GetPendingfriendsbyid-------", error)
+      return {
+        error
+      }
+
+    });
+}
+const GetSendedfriendsbyid = async (id) => {
+  let userId = await getUserId();
+  console.log("-----Getfriendsbyid-----id--", id)
+  const Url = `${HOST}/api/getallsendedgrequest/${userId}`;
   return fetch(Url, {
     method: "get",
 
@@ -151,9 +230,9 @@ const Getfriendsbyid = async (id) => {
 }
 const GetPostsById = async (id) => {
   let userId = await getUserId();
-  console.log("-----GetPostsById-----id--", id)
+  //console.log("-----GetPostsById-----id--", id)
   //const Url = `${HOST}/api/getfriendsbyid/${id}`;
-  const Url = `${HOST}/api/gethomedatabyidtwo/61c7f10326b92738b4054661`;
+  const Url = `${HOST}/api/gethomedatabyidtwo/${userId}`;
   return fetch(Url, {
     method: "get",
 
@@ -178,6 +257,7 @@ const GetPostsById = async (id) => {
           let createPost = {
             ...data.friendlist[friend].posts[post],
             name: data.friendlist[friend].name,
+            userImg: data.friendlist[friend].imageUrl,
             userid: data.friendlist[friend]._id,
             id: data.friendlist[friend].posts[post]._id
           }
@@ -194,7 +274,7 @@ const GetPostsById = async (id) => {
       };
     })
     .catch(error => {
-      console.log("-----GetPostsById-------", error)
+      console.log("----- GetSendedfriendsbyid-------", error)
       return {
         error
       }
@@ -203,9 +283,9 @@ const GetPostsById = async (id) => {
 }
 const GetStoriesById = async (id) => {
   let userId = await getUserId();
-  console.log("-----GetStoriesById-----id--", id)
+ // console.log("-----GetStoriesById-----id--", id)
   //const Url = `${HOST}/api/getfriendsbyid/${id}`;
-  const Url = `${HOST}/api/gethomedatabyid/61c7f10326b92738b4054661`;
+  const Url = `${HOST}/api/gethomedatabyid/${userId}`;
   return fetch(Url, {
     method: "get",
 
@@ -288,9 +368,32 @@ const uploadProfile = async (sourceImage) => {
       console.log(error)
     })
 }
+const AddStory = async (imageUrl)=>{
+  let userId = await getUserId();
+  const Url = `${HOST}/api/story/${userId}`;
+  let row = JSON.stringify({
+    "src":imageUrl
+  })
+  return fetch(Url, {
+    method: "post",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data =>{
+      console.log(data,"------------------")
+       return data
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
 const register = async (name,email,password, imageUrl) => {
-   console.log("called....",name,email, password, imageUrl)
-  
+  await AsyncStorage.removeItem("token");
+  await AsyncStorage.removeItem("userid");
   const url = `${HOST}/api/register`;
   let row = JSON.stringify({
     "name": name,
@@ -309,22 +412,183 @@ const register = async (name,email,password, imageUrl) => {
   })
     .then(response => response.json())
     .then(data =>{
-       return data
+      let bearer = "Bearer " + data.token;
+      AsyncStorage.setItem("token", bearer);
+      AsyncStorage.setItem("userid", data.registeredUser._id);
+     console.log("0000",data, data.registeredUser._id)
+
+      return {
+        success: true,
+        token: data.token
+      };
     })
     .catch(error => {
       console.log(error)
     })
 
 }
+const updatePofile=async(imageUrl)=>{
+  let userId = await getUserId();
+  const url = `${HOST}/api/updateprofile/${userId}`;
+  let row = JSON.stringify({
+     "imageUrl":imageUrl
+  })
+  return fetch(url, {
+    method: "put",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data =>{
+    
+     console.log("----",data)
+        return {
+        success: true,
+       
+      };
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+const createPost=async(title,des,imageUrl)=>{
+  let userId = await getUserId();
+  const url = `${HOST}/api/post/${userId}`;
+  let row = JSON.stringify({
+     "imageUrl":imageUrl,
+     "title":title,
+     "description":des
+  })
+  return fetch(url, {
+    method: "post",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data =>{
+    
+     console.log("----",data)
+        return {
+        success: true,
+       
+      };
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+const accpectRequest=async(friendId)=>{
+  let userId = await getUserId();
+  console.log(userId, friendId)
+  const url = `${HOST}/api/createfriend/${userId}`;
+  let row = JSON.stringify({
+    "_id":friendId  
+  })
+  return fetch(url, {
+    method: "post",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data =>{
+    
+     console.log("----",data)
+        return {
+        success: true,
+       
+      };
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+const GETALLUSERS = async () => {
+
+  const Url = `${HOST}/api/getalluser`;
+  return fetch(Url, {
+    method: "get",
+
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log("------------", data)
+
+      return {
+        data
+      };
+    })
+    .catch(error => {
+      console.log("------------", error)
+      return {
+        error
+      }
+
+    });
+}
+
+const addRequest=async(friendId)=>{
+  let userId = await getUserId();
+  console.log(userId, friendId)
+  const url = `${HOST}/api/requestfriend/${userId}`;
+  let row = JSON.stringify({
+    "_id":friendId  
+  })
+  return fetch(url, {
+    method: "post",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then(response => response.json())
+    .then(data =>{
+    
+     console.log("----",data)
+        return {
+        success: true,
+       
+      };
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+module.exports.addRequest=addRequest;
+module.exports.createPost=createPost
+module.exports.updatePofile = updatePofile;
 module.exports.register = register;
+module.exports.removeToken = removeToken;
 module.exports.uploadProfile = uploadProfile;
 module.exports.GetStoriesById = GetStoriesById;
 module.exports.GetPostsById = GetPostsById;
 module.exports.Getfriendsbyid = Getfriendsbyid;
+module.exports.GetPendingfriendsbyid = GetPendingfriendsbyid;
+module.exports.GetSendedfriendsbyid = GetSendedfriendsbyid;
 module.exports.UserData = UserData
 module.exports.getUserId = getUserId;
 module.exports.getToken = getToken;
 module.exports.Login = Login;
 module.exports.OtherUserData = OtherUserData;
+module.exports.AddStory = AddStory;
+module.exports.accpectRequest=accpectRequest;
+module.exports.GETALLUSERS=GETALLUSERS;
+
 
 

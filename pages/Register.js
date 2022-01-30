@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity,Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity,Image,StatusBar } from 'react-native';
 import styles from "../styles/styles";
 import AuthServices from '../services/auth';
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
@@ -129,8 +129,7 @@ export default class Login extends Component {
   render() {
     return (
       <View style={styles.signin}>
-
-
+      <StatusBar backgroundColor={"#3D2892"}/>
 
         <View style={styles.signupInnerTop}>
           <Text style={styles.signinHeader}>RBLOK</Text>
