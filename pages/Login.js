@@ -7,6 +7,8 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import { AsyncStorage } from 'react-native';
+import { socket } from '../services/socket';
+import io from "socket.io-client";
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,17 @@ export default class Login extends Component {
       showModalError:false
     };
   }
+  //socket = socket;
+   socket = io.connect("https://chatsocketappvrblok.herokuapp.com/")
+  
+  componentDidMount(){
+    this.socket.on('connection', () => {
+      console.log('connected!');
+      });
+  }
   async login() {
+ 
+  
     console.log("this.state.email, this.state.passord",this.state.email, this.state.passord)
     const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (!this.state.email) {

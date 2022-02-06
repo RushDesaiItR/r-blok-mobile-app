@@ -615,6 +615,36 @@ checkboxContainer: {
   checkboxLabel: {
     margin: 8,
   },
+//  --------------------------------------------- chat style------------------
+chatContainer:{
+    flex:1,
+    backgroundColor:"#e6f5ff"
+},
+chatContainerInner:{
+  padding:10
+},
+chatOutgoingMessage:{
+    backgroundColor:"red",
+    width:"70%",
+    alignItems:"flex-end",
+    marginLeft:"30%"
+},
+chatOutgoingMessage:{
+    backgroundColor:"red",
+    width:"70%",
+    alignItems:"flex-end",
+    marginLeft:"30%",
+    marginVertical:10,
+    borderRadius:10
+},
+chatIncomingMessage:{
+    backgroundColor:"red",
+    width:"70%",
+    marginVertical:10,
+    borderRadius:10
+
+    
+}
 });
 
 
