@@ -1,188 +1,152 @@
-import React, { useEffect } from 'react';
-import io from "socket.io-client";
-import { View, Text, TextInput, TouchableOpacity,StatusBar,FlatList,ScrollView } from 'react-native';
-import styles from './styles/styles';
-const socket = io.connect("https://chatsocketappvrblok.herokuapp.com")
-//https://chatsocketappvrblok.herokuapp.com/")
-//http://localhost:5000")
-const App=()=> {
-  const [msg, setMsg]=React.useState("")
-  const [Arrmsg, setArrMsg]=React.useState([])
-useEffect(() => {
-  socket.on("chat",payload=>{
-    setArrMsg([...Arrmsg,payload])
-  })
+
+import { View, Text, TextInput, TouchableOpacity,StatusBar,FlatList,ScrollView,StyleSheet } from 'react-native';
+
+import React, { useEffect, useState } from 'react'
+import io from 'socket.io-client'
+import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
+
+let socket;
+const Chat = () => {
+    const [user, setUser] = useState("abc");
+    const [room, setRoom] = useState("abc");
+    const [users, setUsers] = useState([]);
+    const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
+    const socketUrl = 'https://chatsocketappvrblok.herokuapp.com'
+    //'http://localhost:8000/'
+    //'https://chatsocketappvrblok.herokuapp.com/'
+   // const socketUrl = ''
+//
+    useEffect(() => {
+        // const search = window.location.search;
+        // const params = new URLSearchParams(search);
+        // const user = params.get('name');
+        // const room = params.get('room');
+
+        // setUser(user)
+        // setRoom(room)
+         console.log(socketUrl)
+         socket = io.connect(socketUrl)
+
+        //io(socketUrl);
+
+
+
+        socket.emit('join', { user, room }, (err) => {
+            if (err) {
+                // alert(err)
+            }
+        })
+
+        return () => {
+            // User leaves room
+            socket.disconnect();
+
+            socket.off()
+        }
+
+    }, [socketUrl])
+
+    useEffect(() => {
+        socket.on('message', msg => {
+            setMessages(prevMsg => [...prevMsg, msg])
+
+            setTimeout(() => {
+
+               // var div = document.getElementById("chat_body");
+               // div.scrollTop = div.scrollHeight - div.clientWidth;
+            }, 10)
+        })
+
+        socket.on('roomMembers', usrs => {
+            setUsers(usrs)
+        })
+    }, [])
+
+    const sendMessage = (e) => {
+        e.preventDefault();
+       
+        socket.emit('sendMessage', message, () => setMessage(""))
+        // setTimeout(() => {
+        //     var div = document.getElementById("chat_body");
+        //     div.scrollTop = div.scrollHeight ;
+        // }, 100)
+    }
+
+    return (
+        <View>
+            <View  >
+                <View >
+                  
+                   
+                        {
+                            users.map((e, i) => (
+                                <Text key={i}>{e.user}</Text>
+                            ))
+                        }
+                   
+                </View>
+                <View>
+                    <View>
+                        <View >
+                            <View >
+                                <Text>{room}</Text>
+                            </View>
+
+                        </View>
+                        {/* className="panel-body msg_container_base" id="chat_body" */}
+                        <View >
+                            {
+                                messages.map((e, i) => (
+                                    e.user === user?.toLowerCase() ? <>
+                                        <View key={i} >
+                                            <View >
+                                                <View >
+                                                    <Text>{e.text}</Text>
+                                                    <Text>{e.user}</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </> : <>
+                                        <View key={i} >
+                                            <View >
+                                                <View >
+                                                    <Text>{e.text}</Text>
+                                                    <Text>{e.user}</Text>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </>
+                                ))
+                            }
+
+                        </View>
+                        <GiftedChat
+      messages={messages}
+     
+    />
+                        {/* <div className="panel-footer">
+                            <div className="input-group">
+                                <input id="btn-input" type="text"
+                                    value={message}
+                                    onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
+                                    onChange={(event) => setMessage(event.target.value)}
+                                    className="form-control input-sm chat_input" placeholder="Write your message here..." />
+
+                            </div>
+                        </div> */}
+                    </View>
+                </View>
+            </View>
+        </View>
+    )
+}
+
+export default Chat;
+const styles = StyleSheet.create({
+  // rest remains same
+  bottomComponentContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
-const clickEvent=()=>{
-  console.log(msg)
-  socket.emit("chat",{msg})
- 
-  console.log("--",Arrmsg)
-
-}
-	return (
-	// <>
-  // <TextInput placeholder="ghjgh" onChangeText={(text)=>setMsg(text)} />
-  // <TouchableOpacity onPress={()=>clickEvent()}>
-  //   <Text>ok</Text>
-  // </TouchableOpacity>
-  
-  //   {
-  //     Arrmsg.map((item,index)=>{
-  //       return(
-  //           <Text key={index}>
-  //             {
-  //               item.msg
-  //             }
-  //           </Text>
-  //       )
-  //     })
-  //   } 
-
-    
-	//  </>
-  <ScrollView style={styles.chatContainer}>
-       <View  style={styles.chatContainerInner}>
-        
-         <View style={styles.chatOutgoingMessage}>
-         <Text style={styles.chatOutgoingMessageTextName}>
-            RUshikesh
-         </Text>
-            <Text style={styles.chatOutgoingMessageText}>
-              Hi how are you?
-            </Text>
-            <Text style={styles.chatOutgoingMessageTime}>
-            2.30 PM
-            </Text>
-         </View>
-
-
-         <View style={styles.chatIncomingMessage}>
-         <Text style={styles.chatOutgoingMessageTextName}>
-            RUshikesh
-         </Text>
-            <Text style={styles.chatOutgoingMessageText}>
-              Hi how are you?dffffffffffffffffffffffffffffffffffff
-            </Text>
-            <Text style={styles.chatOutgoingMessageTime}>
-            2.30 PM
-            </Text>
-           </View>
-       </View>
-  </ScrollView>
-	);
-}
-
-export default App;
-
-
-
-// import React from 'react';
-
-// import AuthServices from './services/auth'
-// import {
-//   SafeAreaView,
-//   ScrollView,
-//   StatusBar,
-//   StyleSheet,
-//   Text,
-//   useColorScheme,
-//   View,
-// } from 'react-native';
-
-// import Index from "./pages/index"
-// const App = () => {
-//  React.useEffect(()=>{
-//   // AuthServices.loginUser()
-//  },[])
-
-//   return (
-//    <Index/>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   sectionContainer: {
-//     marginTop: 32,
-//     paddingHorizontal: 24,
-//   },
-//   sectionTitle: {
-//     fontSize: 24,
-//     fontWeight: '600',
-//   },
-//   sectionDescription: {
-//     marginTop: 8,
-//     fontSize: 18,
-//     fontWeight: '400',
-//   },
-//   highlight: {
-//     fontWeight: '700',
-//   },
-// });
-
-// export default App;
-
-
-// import React, { useEffect } from 'react';
-// import { StyleSheet, Text, TouchableOpacity, View,TextInput } from "react-native";
-// import io from "socket.io-client";
-// //const socket = io.connect("https://chatsocketappvrblok.herokuapp.com/")
-// //("https://chatsocketappvrblok.herokuapp.com/")
-// //http://localhost:5000")
-// const App=()=> {
-//   const [msg, setMsg]=React.useState("")
-//   const [Arrmsg, setArrMsg]=React.useState([])
-// useEffect(() => {
-  
-// socket.on('connection', () => {
-// console.log('connected!');
-// });
-// socket.on("connent_error", (err) =>{
-// console.log(err);
-// })
-//   socket.on("chat",payload=>{
-//     setArrMsg([...Arrmsg,payload])
-//   })
-// });
-// const clickEvent=()=>{
-//   console.log("called...",msg)
-//   socket.emit("chat",{msg})
-//   console.log("called...")
-// }
-// 	return (
-//     <>
-//     <TouchableOpacity
-    
-//     onPress={()=>clickEvent()}
-//   >
-//     <Text>Press Here</Text>
-//   </TouchableOpacity>
-//    <TextInput
-  
-//    onChangeText={(text)=>setMsg(text)}
-//    value={msg}
-//    placeholder="useless placeholder"
-//    keyboardType="numeric"
-//  />
-//  </>
-// 	// <h1>
-// 	// 	Geeks....!
-//   //   <input value={msg} onChange={(e)=>setMsg(e.target.value)} type="text"/>
-//   //   <button onClick={()=>clickEvent()}>click</button>
-//   //   {
-//   //     Arrmsg.map((item)=>{
-//   //       return(
-//   //           <h1>
-//   //             {
-//   //               item.msg
-//   //             }
-//   //           </h1>
-//   //       )
-//   //     })
-//   //   }
-// 	// </h1>
-// 	);
-// }
-
-//export default App;
-

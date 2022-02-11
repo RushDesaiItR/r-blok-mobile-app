@@ -621,27 +621,40 @@ chatContainer:{
     backgroundColor:"#e6f5ff"
 },
 chatContainerInner:{
-  padding:10
+  padding:10,
+ 
 },
-chatOutgoingMessage:{
-    backgroundColor:"red",
-    width:"70%",
-    alignItems:"flex-end",
-    marginLeft:"30%"
-},
-chatOutgoingMessage:{
-    backgroundColor:"red",
-    width:"70%",
-    alignItems:"flex-end",
+chatOutgoingMessageContainer:{
     marginLeft:"30%",
-    marginVertical:10,
-    borderRadius:10
+},
+chatOutgoingMessage:{
+    marginLeft:10,
+    alignItems:"flex-end",
+    backgroundColor:"#3D2892",
+    padding:10,
+    borderBottomLeftRadius:15,
+    borderTopLeftRadius:15,
+    borderTopRightRadius:15
+},
+chatOutgoingMessageTextName:{
+    color:"white",
+    fontWeight:"500",
+    fontSize:12
+},
+chatOutgoingMessageText:{
+    color:"white",
+    fontWeight:"500",
+    fontSize:15,
+    marginVertical:5
 },
 chatIncomingMessage:{
     backgroundColor:"red",
     width:"70%",
     marginVertical:10,
-    borderRadius:10
+    borderBottomRightRadius:15,
+    borderTopLeftRadius:15,
+    borderTopRightRadius:15,
+    padding:10
 
     
 }
