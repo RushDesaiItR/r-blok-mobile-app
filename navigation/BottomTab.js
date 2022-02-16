@@ -4,7 +4,6 @@ const Tab = createBottomTabNavigator();
 import Home from "../pages/Home"
 import Profile from "../pages/Profile"
 import Add from "../pages/Add"
-import Chat from "../pages/Chat"
 import User from "../pages/User"
 import OtherUser from "../pages/OtherUser"
 import FriendList from "../pages/FriendList"
@@ -16,7 +15,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons"
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import { createStackNavigator } from '@react-navigation/stack';
-
+import Chat from "../pages/Chat"
 const Stack = createStackNavigator();
 
 function MyStack() {
@@ -29,12 +28,13 @@ function MyStack() {
     >
        <Stack.Screen name="Login" component={Login} />
        <Stack.Screen name="Home" component={MyTabs} />
-     
-      <Stack.Screen name="Register" component={Register} />
-     
-      <Stack.Screen name="OtherUser" component={OtherUser} />
+        <Stack.Screen name="Register" component={Register} />
+       <Stack.Screen name="OtherUser" component={OtherUser} />
       <Stack.Screen name="FriendList" component={FriendList} />
       <Stack.Screen name="OtherUserProfile" component={OtherUserProfile} />
+      <Stack.Screen name="Chat" component={Chat} />
+      {/* Chat  */}
+
     </Stack.Navigator>
   );
 }

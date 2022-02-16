@@ -162,6 +162,41 @@ const Getfriendsbyid = async (id) => {
 
     });
 }
+const GetChatid = async (userFirstId) => {
+  let userSecondId = await getUserId();
+  console.log("----GetChatid-----id--", userFirstId,userSecondId)
+  let row = JSON.stringify({
+       "userSecond":userSecondId,
+       "userFirst":userFirstId
+  })
+  const Url = `${HOST}/api/getUserChatData`;
+  return fetch(Url, {
+    method: "post",
+    body: row,
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  })
+    .then(function (response) {
+      return response.json()
+    })
+    .then(function (data) {
+      console.log("-----GetChatid-------", data)
+
+      return {
+        data
+      };
+    })
+    .catch(error => {
+      console.log("-----GetChatid-------", error)
+      return {
+        error
+      }
+
+    });
+}
 const GetPendingfriendsbyid = async (id) => {
   let userId = await getUserId();
   console.log("-----Getfriendsbyid-----id--", id)
@@ -589,6 +624,7 @@ module.exports.OtherUserData = OtherUserData;
 module.exports.AddStory = AddStory;
 module.exports.accpectRequest=accpectRequest;
 module.exports.GETALLUSERS=GETALLUSERS;
+module.exports.GetChatid=GetChatid;
 
 
 

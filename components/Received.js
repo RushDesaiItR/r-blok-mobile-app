@@ -25,7 +25,15 @@ const styles = StyleSheet.create({
     container:{
         flexDirection:'row',
         marginTop:20,
-        width:250
+        width:250,
+        backgroundColor:"#6257DF",
+        padding:10,
+        marginHorizontal:5,
+        borderTopLeftRadius:20,
+        borderTopRightRadius:20,
+        borderBottomRightRadius:20
+
+        
     },
     img:{
         width:40,
@@ -33,6 +41,7 @@ const styles = StyleSheet.create({
         borderRadius:20
     },
     message:{
+        color:"white",
         fontSize:13,
         marginHorizontal:15,
         fontFamily:'Montserrat_700Bold'
